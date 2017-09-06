@@ -55,11 +55,11 @@
               <br>
 
               <div class="row flex flex-row align-center">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                   <p class="lead">{{ product.price | currency }}</p>
                 </div>
 
-                <div class="col-xs-8 flex flex-row align-center justify-right">
+                <div class="col-xs-7 flex flex-row align-center justify-right">
                   <div class="number-in-stock"
                        :class="{ few: product.inStock < 10, none: product.inStock === 0 }">
                     {{ product.inStock }} in stock

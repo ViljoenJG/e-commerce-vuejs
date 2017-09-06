@@ -6,23 +6,19 @@ new Vue({
         return formatter = Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
-          minimumFractionDigits: 0
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
         }).format(value).replace(/^(\D+)/, '$1 ');
       }
     },
 
     methods: {
       addProductToCart: function(product) {
-        var found = false;
+        var cartItem = this.getCartItem(product.id);
 
-        for (var a=0; a<this.cart.items.length; a++) {
-          if (this.cart.items[a].product.id === product.id) {
-            this.cart.items[a].quantity++;
-            found = true;
-          }
-        }
-
-        if (!found) {
+        if (cartItem) {
+          cartItem.quantity++;
+        } else {
           this.cart.items.push({
             product: product,
             quantity: 1
@@ -30,6 +26,16 @@ new Vue({
         }
 
         product.inStock--;
+      },
+
+      getCartItem: function(id) {
+        for (var a=0; a<this.cart.items.length; a++) {
+          if (this.cart.items[a].product.id === id) {
+            return this.cart.items[a];
+          }
+        }
+
+        return null;
       }
     },
 
@@ -45,7 +51,7 @@ new Vue({
       },
 
       taxAmount: function() {
-        return (this.cartTotal * 10) / 100; 
+        return (this.cartTotal * 10) / 100;
       }
     },
 
