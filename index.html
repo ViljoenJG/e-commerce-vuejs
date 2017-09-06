@@ -108,14 +108,14 @@
               <td class="text-right" colspan="3">
                 <strong>Tax</strong>
               </td>
-              <td>{{ cartTotal | currency }}</td>
+              <td>{{ taxAmount | currency }}</td>
             </tr>
 
             <tr>
               <td class="text-right" colspan="3">
                 <strong>Grand total</strong>
               </td>
-              <td>{{ cartTotal | currency }}</td>
+              <td>{{ cartTotal + taxAmount | currency }}</td>
             </tr>
 
           </tbody>

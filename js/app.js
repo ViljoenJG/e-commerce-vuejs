@@ -42,6 +42,10 @@ new Vue({
       cartItemCount: function() {
         return this.cart.items.reduce((count, item) =>
           count + item.quantity, 0)
+      },
+
+      taxAmount: function() {
+        return (this.cartTotal * 10) / 100; 
       }
     },
 
