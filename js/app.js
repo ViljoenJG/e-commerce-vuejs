@@ -36,6 +36,36 @@ new Vue({
         }
 
         return null;
+      },
+
+      increaseQuantity: function(cartItem) {
+        if (cartItem.product.inStock > 0) {
+          cartItem.product.inStock--;
+          cartItem.quantity++;
+        }
+      },
+
+      decreaseQuantity: function(cartItem) {
+        if (cartItem.quantity > 0) {
+          cartItem.product.inStock++;
+          cartItem.quantity--;
+
+          if (cartItem.quantity === 0) {
+            this.removeItemFromCart(cartItem);
+          }
+        }
+      },
+
+      removeItemFromCart: function(cartItem) {
+        var index = this.cart.items.indexOf(cartItem);
+
+        if (cartItem.quantity) {
+            cartItem.product.inStock += cartItem.quantity;
+        }
+
+        if (index !== -1) {
+          this.cart.items.splice(index, 1);
+        }
       }
     },
 
