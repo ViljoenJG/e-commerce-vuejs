@@ -11,27 +11,35 @@ new Vue({
       }
     },
 
-    computed: {
-      productInStockClasses: function() {
-        return this.products.map(product => {
-          return product.inStock === 0 ?
-            'none' : product.inStock < 10 ?
-              'few' :  undefined;
+    methods: {
+      addProductToCart: function(product) {
+        this.cart.items.push({
+          product: product,
+          quantity: 1
         })
+
+        product.inStock--;
       }
     },
 
-    methods: {
-      inStockClasses: function(product) {
-        return {
-          'few': product.inStock < 10 && product.inStock,
-          'none': product.inStock === 0
-        }
+    computed: {
+      cartTotal: function() {
+        return this.cart.items.reduce((total, item) =>
+          total + (item.quantity * item.product.price), 0)
+      },
+
+      cartItems: function() {
+        return this.cart.items.reduce((count, item) =>
+          count + item.quantity, 0)
       }
     },
 
     data: {
+      showingCart: false,
 
+      cart: {
+          items: []
+      },
       products: [
         {
             id: 1,

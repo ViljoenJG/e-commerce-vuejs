@@ -14,16 +14,22 @@
   <div id="app">
     <div class="container">
       <br>
+
       <nav id="top-navigation" class="well well-sm flex flex-row align-center">
         <a href="#"><strong>E-commerce Inc.</strong></a>
-
         <div class="text-right pull-right cart-info">
-          <span class="stats">X items in cart, totalling $Y</span>
-          <button class="btn btn-primary">View Cart</button>
+          <span class="stats">
+            {{ cartItems }} {{ cartItems === 1 ? 'item' : 'items' }} in cart, totalling {{ cartTotal | currency }}
+          </span>
+
+          <button class="btn btn-primary"
+                  @click="showingCart = !showingCart">
+            View Cart
+          </button>
         </div>
       </nav>
 
-      <div id="products" class="row list-group">
+      <div v-if="!showingCart" id="products" class="row list-group">
         <div class="item col-xs-4"
              v-for="(product, index) in products">
 
@@ -45,14 +51,14 @@
                 </div>
 
                 <div class="col-xs-8 flex flex-row align-center justify-right">
-                  <!-- <div class="number-in-stock" :class="inStockClasses(product)"> -->
-                  <!-- <div class="number-in-stock" :class="productInStockClasses[index]"> -->
                   <div class="number-in-stock"
                        :class="{ few: product.inStock < 10, none: product.inStock === 0 }">
                     {{ product.inStock }} in stock
                   </div>
 
-                  <button class="btn btn-success" :disabled="product.inStock === 0">
+                  <button class="btn btn-success"
+                          :disabled="product.inStock === 0"
+                          @click="addProductToCart(product)">
                     Add to cart
                   </button>
                 </div>
@@ -60,9 +66,15 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </div> <!-- Products -->
+
+      <div v-else id="cart">
+        <h1>Cart</h1>
+        <p>The cart will be displayed here</p>
+      </div> <!-- Cart -->
+
+    </div> <!-- container -->
+  </div>  <!-- app -->
 
   <script src="js/bootstrap.js"></script>
   <script src="js/app.js"></script>
