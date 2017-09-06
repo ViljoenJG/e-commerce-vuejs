@@ -16,10 +16,12 @@
       <br>
 
       <nav id="top-navigation" class="well well-sm flex flex-row align-center">
-        <a @click="showingCart = false"><strong>E-commerce Inc.</strong></a>
+        <a href="#" @click.prevent="showingCart = false">
+          <strong>E-commerce Inc.</strong>
+        </a>
         <div class="text-right pull-right cart-info">
           <span class="stats">
-            {{ cartItems }} {{ cartItems === 1 ? 'item' : 'items' }} in cart, totalling {{ cartTotal | currency }}
+            {{ cartItemCount }} {{ cartItemCount === 1 ? 'item' : 'items' }} in cart, totalling {{ cartTotal | currency }}
           </span>
 
           <button class="btn btn-primary"
@@ -31,7 +33,7 @@
           <button class="btn btn-primary"
                   v-if="showingCart"
                   @click="showingCart = false">
-            Back to shopping
+            Continue shopping
           </button>
         </div>
       </nav>
@@ -75,9 +77,51 @@
         </div>
       </div> <!-- Products -->
 
-      <div v-else id="cart">
+      <div v-if="showingCart" id="cart">
         <h1>Cart</h1>
-        <p>The cart will be displayed here</p>
+
+        <table v-if="cart.items.length > 0" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in cart.items">
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.product.price | currency }}</td>
+              <td>{{ item.quantity * item.product.price | currency }}</td>
+            </tr>
+
+            <tr>
+              <td class="text-right" colspan="3">
+                <strong>Subtotal</strong>
+              </td>
+              <td>{{ cartTotal | currency }}</td>
+            </tr>
+
+            <tr>
+              <td class="text-right" colspan="3">
+                <strong>Tax</strong>
+              </td>
+              <td>{{ cartTotal | currency }}</td>
+            </tr>
+
+            <tr>
+              <td class="text-right" colspan="3">
+                <strong>Grand total</strong>
+              </td>
+              <td>{{ cartTotal | currency }}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <p v-else>Your cart is currently empty</p>
       </div> <!-- Cart -->
 
     </div> <!-- container -->

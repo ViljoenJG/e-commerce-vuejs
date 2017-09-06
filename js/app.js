@@ -7,16 +7,27 @@ new Vue({
           style: 'currency',
           currency: 'USD',
           minimumFractionDigits: 0
-        }).format(value);
+        }).format(value).replace(/^(\D+)/, '$1 ');
       }
     },
 
     methods: {
       addProductToCart: function(product) {
-        this.cart.items.push({
-          product: product,
-          quantity: 1
-        })
+        var found = false;
+
+        for (var a=0; a<this.cart.items.length; a++) {
+          if (this.cart.items[a].product.id === product.id) {
+            this.cart.items[a].quantity++;
+            found = true;
+          }
+        }
+
+        if (!found) {
+          this.cart.items.push({
+            product: product,
+            quantity: 1
+          })
+        }
 
         product.inStock--;
       }
@@ -28,7 +39,7 @@ new Vue({
           total + (item.quantity * item.product.price), 0)
       },
 
-      cartItems: function() {
+      cartItemCount: function() {
         return this.cart.items.reduce((count, item) =>
           count + item.quantity, 0)
       }
