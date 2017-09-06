@@ -129,6 +129,15 @@
               <td>{{ cartTotal + taxAmount | currency }}</td>
             </tr>
 
+            <tr>
+              <td colspan="3"></td>
+              <td>
+                <button class="btn btn-success" @click="checkout">
+                  Checkout
+                </button>
+              </td>
+            </tr>
+
           </tbody>
         </table>
 

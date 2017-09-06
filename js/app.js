@@ -66,6 +66,12 @@ new Vue({
         if (index !== -1) {
           this.cart.items.splice(index, 1);
         }
+      },
+
+      checkout: function() {
+        if (confirm('Are you sure you want to purchase these items?')) {
+          this.cart.items = [];
+        }
       }
     },
 
